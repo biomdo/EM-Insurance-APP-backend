@@ -29,7 +29,7 @@ productRouter.put('/:id', update)
 //Delete a product
 productRouter.put('/delete/:id', deleteProduct)
 
-//Find product clients
+//Find product client products for a particular inurance product
 productRouter.get('/clientproducts/:id', findAllClientProductsbyProductId)
 
 export default productRouter

@@ -169,7 +169,7 @@ export const authenticateUser = (req, res) => {
     return
   }
 
-  const username = req.body.phone_no
+  const username = req.body.username
   const hashedPassword = sha1(req.body.password)
 
   User.findAll({
@@ -216,6 +216,6 @@ export const authenticateUserToken = (req, res) => {
   res.status(userAuth.status).json({
     auth: userAuth.auth,
     message: userAuth.message,
-    tenantData: userAuth.data,
+    userData: userAuth.data,
   })
 }
