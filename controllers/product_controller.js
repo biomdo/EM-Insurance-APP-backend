@@ -148,7 +148,9 @@ export const deleteProduct = (req, res) => {
 
 export const findAllClientProductsbyProductId = async (req, res) => {
   const productId = req.params.id
-  await ClientProduct.findAll({ where: { product_id: productId } })
+  await ClientProduct.findAll({
+    where: { product_id: productId, status: 'active' },
+  })
     .then((data) => {
       res.status(200).json(data)
     })

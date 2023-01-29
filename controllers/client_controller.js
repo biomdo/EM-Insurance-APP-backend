@@ -120,7 +120,9 @@ export const deleteClient = (req, res) => {
 //find Client Insurance products
 export const findClientProducts = async (req, res) => {
   const clientId = req.params.id
-  await ClientProduct.findAll({ where: { client_id: clientId } })
+  await ClientProduct.findAll({
+    where: { client_id: clientId, status: 'active' },
+  })
     .then((data) => {
       if (data) res.status(200).json(data)
       else res.json({ message: 'no Insurance Products found.', isError: true })

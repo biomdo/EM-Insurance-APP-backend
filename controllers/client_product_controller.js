@@ -74,9 +74,9 @@ export const findOne = async (req, res) => {
     })
 }
 
-//Get All Client Product using ID
+//Get All Client Products
 export const findAll = async (req, res) => {
-  await ClientProduct.findAll()
+  await ClientProduct.findAll({ where: { status: 'active' } })
     .then((data) => {
       if (data) res.status(200).json(data)
       else res.json({ message: 'Client Products not found found' })
@@ -89,7 +89,7 @@ export const findAll = async (req, res) => {
     })
 }
 
-//Update client account details
+//Update client product details
 export const update = (req, res) => {
   const id = req.params.id
   ClientProduct.update(req.body, { where: { id: id } })
@@ -108,6 +108,30 @@ export const update = (req, res) => {
     .catch((error) => {
       res.status(500).json({
         message: `Error encountered when updating client product. `,
+      })
+      console.log(error.message)
+    })
+}
+
+//Soft delete all client products with product ID
+export const deleteByProductId = (req, res) => {
+  const id = req.params.id
+  ClientProduct.update({ satus: 'deleted' }, { where: { product_id: id } })
+    .then((num) => {
+      if (num == 1) {
+        res.status(200).json({
+          message: 'Client product deleted successfully.',
+        })
+      } else {
+        res.status(200).json({
+          message: `Cannot delete client product`,
+          isError: true,
+        })
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: `Error encountered when deleting client product. `,
       })
       console.log(error.message)
     })
