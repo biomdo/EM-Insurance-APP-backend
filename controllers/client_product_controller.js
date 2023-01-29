@@ -8,15 +8,19 @@ const Product = db.products
 export const create = async (req, res) => {
   //Validate Client Product
   if (!req.body.client_id) {
-    res.status(200).json({ message: 'Client not provided.' })
+    res.status(200).json({ message: 'Client not provided.', isError: true })
     return
   }
   if (!req.body.product_id) {
-    res.status(200).json({ message: 'Insurance product not provided.' })
+    res
+      .status(200)
+      .json({ message: 'Insurance product not provided.', isError: true })
     return
   }
   if (!req.body.start_date) {
-    res.status(200).json({ message: 'Product start date not provided.' })
+    res
+      .status(200)
+      .json({ message: 'Product start date not provided.', isError: true })
     return
   }
 
@@ -26,7 +30,9 @@ export const create = async (req, res) => {
   let product = []
   await Product.findByPk(clientProduct.product_id).then((data) => {
     if (!data) {
-      res.status(400).json({ message: 'Insurance Product does not exist.' })
+      res
+        .status(200)
+        .json({ message: 'Insurance Product does not exist.', isError: true })
       return
     } else {
       product = data
@@ -44,8 +50,9 @@ export const create = async (req, res) => {
       res.status(200).json(data)
     })
     .catch((error) => {
-      res.status(400).json({
+      res.status(500).json({
         message: 'Error adding Client Product.',
+        isError: true,
       })
       console.log(error.message)
     })
@@ -57,7 +64,8 @@ export const findOne = async (req, res) => {
   await ClientProduct.findByPk(id)
     .then((data) => {
       if (data) res.status(200).json(data)
-      else res.json({ message: 'Client Product not found found' })
+      else
+        res.json({ message: 'Client Product not found found', isError: true })
     })
     .catch((error) => {
       res.status(500).json({
@@ -71,7 +79,7 @@ export const findAll = async (req, res) => {
   await ClientProduct.findAll()
     .then((data) => {
       if (data) res.status(200).json(data)
-      else res.json({ message: 'Client Product not found found' })
+      else res.json({ message: 'Client Products not found found' })
     })
     .catch((error) => {
       res.status(500).json({
@@ -91,8 +99,9 @@ export const update = (req, res) => {
           message: 'Client product updated successfully.',
         })
       } else {
-        res.status(400).json({
+        res.status(200).json({
           message: `Cannot update client product`,
+          isError: true,
         })
       }
     })

@@ -10,15 +10,15 @@ const Benefitiary = db.benefitiaries
 export const create = (req, res) => {
   //Validate Client
   if (!req.body.first_name) {
-    res.status(400).json({ message: 'First name not provided.' })
+    res.status(200).json({ message: 'First name not provided.', isError: true })
     return
   }
   if (!req.body.last_name) {
-    res.status(400).json({ message: 'Last name not provided.' })
+    res.status(200).json({ message: 'Last name not provided.', isError: true })
     return
   }
   if (!req.body.id_number) {
-    res.status(400).json({ message: 'ID number not provided.' })
+    res.status(200).json({ message: 'ID number not provided.', isError: true })
     return
   }
 
@@ -29,8 +29,9 @@ export const create = (req, res) => {
       res.status(200).json(data)
     })
     .catch((error) => {
-      res.status(400).json({
+      res.status(200).json({
         message: `Client with ID number: ${client.id_number} record already exists.`,
+        isError: true,
       })
       console.log(error.message)
     })
@@ -57,7 +58,7 @@ export const findOne = async (req, res) => {
   await Client.findByPk(id)
     .then((data) => {
       if (data) res.status(200).json(data)
-      else res.json({ message: `Client record not found.` })
+      else res.json({ message: `Client record not found.`, isError: true })
     })
     .catch((error) => {
       res.status(500).json({
@@ -78,8 +79,9 @@ export const update = (req, res) => {
           message: 'Client record was updated successfully.',
         })
       } else {
-        res.status(400).json({
+        res.status(200).json({
           message: `Cannot update Client record`,
+          isError: true,
         })
       }
     })
@@ -101,8 +103,9 @@ export const deleteClient = (req, res) => {
           message: 'Client record was deleted successfully.',
         })
       } else {
-        res.status(400).json({
+        res.status(200).json({
           message: `Cannot delete Client record`,
+          isError: true,
         })
       }
     })
@@ -120,7 +123,7 @@ export const findClientProducts = async (req, res) => {
   await ClientProduct.findAll({ where: { client_id: clientId } })
     .then((data) => {
       if (data) res.status(200).json(data)
-      else res.json({ message: 'no Insurance Products found.' })
+      else res.json({ message: 'no Insurance Products found.', isError: true })
     })
     .catch((error) => {
       res.status(500).json({

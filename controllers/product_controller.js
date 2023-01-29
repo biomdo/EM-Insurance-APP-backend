@@ -10,19 +10,24 @@ const Client = db.clients
 export const create = (req, res) => {
   //Validate Product
   if (!req.body.name) {
-    res.status(400).json({ message: 'Insurance Product name is not provided.' })
+    res.status(200).json({
+      message: 'Insurance Product name is not provided.',
+      isError: true,
+    })
     return
   }
   if (!req.body.period) {
-    res
-      .status(400)
-      .json({ message: 'Insurance Product period is not provided.' })
+    res.status(200).json({
+      message: 'Insurance Product period is not provided.',
+      isError: true,
+    })
     return
   }
   if (!req.body.amount) {
-    res
-      .status(400)
-      .json({ message: 'Insurance Product amount is not provided.' })
+    res.status(200).json({
+      message: 'Insurance Product amount is not provided.',
+      isError: true,
+    })
     return
   }
 
@@ -34,8 +39,8 @@ export const create = (req, res) => {
       res.status(200).json(data)
     })
     .catch((error) => {
-      res.status(400).json({
-        message: 'Insurance Product already is already exists.',
+      res.status(500).json({
+        message: 'Insurance Product already exists.',
       })
       console.log(error.message)
     })
@@ -78,7 +83,7 @@ export const findOne = (req, res) => {
   Product.findByPk(id)
     .then((data) => {
       if (data) res.status(200).json(data)
-      else res.json({ message: `Insurance product not found.` })
+      else res.json({ message: `Insurance product not found.`, isError: true })
     })
     .catch((error) => {
       res.status(500).json({
@@ -99,8 +104,9 @@ export const update = (req, res) => {
           message: 'Insurance product record was updated successfully.',
         })
       } else {
-        res.status(400).json({
+        res.status(200).json({
           message: `Cannot update Insurance product record`,
+          isError: true,
         })
       }
     })
@@ -126,8 +132,9 @@ export const deleteProduct = (req, res) => {
           message: 'Insurance product record was deleted successfully.',
         })
       } else {
-        res.status(400).json({
+        res.status(200).json({
           message: `Cannot delete Insurance product as it does not exist`,
+          isError: true,
         })
       }
     })

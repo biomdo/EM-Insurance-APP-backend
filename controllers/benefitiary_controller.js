@@ -7,19 +7,19 @@ const Benefitiary = db.benefitiaries
 export const create = (req, res) => {
   //Validate Benefitiary Details
   if (!req.body.client_id) {
-    res.status(200).json({ message: 'Client not provided.' })
+    res.status(200).json({ message: 'Client not provided.', isError: true })
     return
   }
   if (!req.body.first_name) {
-    res.status(200).json({ message: 'First name not provided.' })
+    res.status(200).json({ message: 'First name not provided.', isError: true })
     return
   }
   if (!req.body.last_name) {
-    res.status(200).json({ message: 'Last name not provided.' })
+    res.status(200).json({ message: 'Last name not provided.', isError: true })
     return
   }
   if (!req.body.relation) {
-    res.status(200).json({ message: 'Relation not provided.' })
+    res.status(200).json({ message: 'Relation not provided.', isError: true })
     return
   }
 
@@ -30,7 +30,7 @@ export const create = (req, res) => {
       res.status(200).json(data)
     })
     .catch((error) => {
-      res.status(400).json({
+      res.status(500).json({
         message: 'Error adding benefitiary.',
       })
       console.log(error.message)
@@ -42,7 +42,7 @@ export const findOne = async (req, res) => {
   await Benefitiary.findByPk(id)
     .then((data) => {
       if (data) res.status(200).json(data)
-      else res.json({ message: 'No Benefitiary record found' })
+      else res.json({ message: 'No Benefitiary record found', isError: true })
     })
     .catch((error) => {
       res.status(500).json({
@@ -89,8 +89,9 @@ export const update = (req, res) => {
           message: 'Benefitiary record was updated successfully.',
         })
       } else {
-        res.status(400).json({
+        res.status(200).json({
           message: `Cannot update Benefitiary record`,
+          isError: true,
         })
       }
     })

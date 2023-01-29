@@ -7,23 +7,29 @@ const BankDetails = db.bankDetails
 export const create = async (req, res) => {
   //Validate Bank Details
   if (!req.body.client_id) {
-    res.status(200).json({ message: 'Client not provided.' })
+    res.status(200).json({ message: 'Client not provided.', isError: true })
     return
   }
   if (!req.body.bank_name) {
-    res.status(200).json({ message: 'Bank name not provided.' })
+    res.status(200).json({ message: 'Bank name not provided.', isError: true })
     return
   }
   if (!req.body.branch) {
-    res.status(200).json({ message: 'Bank branch name not provided.' })
+    res
+      .status(200)
+      .json({ message: 'Bank branch name not provided.', isError: true })
     return
   }
   if (!req.body.account_name) {
-    res.status(200).json({ message: 'Account name not provided.' })
+    res
+      .status(200)
+      .json({ message: 'Account name not provided.', isError: true })
     return
   }
   if (!req.body.account_number) {
-    res.status(200).json({ message: 'Account number not provided.' })
+    res
+      .status(200)
+      .json({ message: 'Account number not provided.', isError: true })
     return
   }
 
@@ -35,7 +41,7 @@ export const create = async (req, res) => {
       res.status(200).json(data)
     })
     .catch((error) => {
-      res.status(400).json({
+      res.status(500).json({
         message: 'Error adding bank Details.',
       })
       console.log(error.message)
@@ -79,7 +85,8 @@ export const findOne = async (req, res) => {
   await BankDetails.findByPk(id)
     .then((data) => {
       if (data) res.status(200).json(data)
-      else res.json({ message: 'Account details not found found' })
+      else
+        res.json({ message: 'Account details not found found', isError: true })
     })
     .catch((error) => {
       res.status(500).json({
@@ -96,10 +103,12 @@ export const update = (req, res) => {
       if (num == 1) {
         res.status(200).json({
           message: 'Account details updated successfully.',
+          isError: false,
         })
       } else {
-        res.status(400).json({
+        res.status(200).json({
           message: `Cannot update account details`,
+          isError: true,
         })
       }
     })

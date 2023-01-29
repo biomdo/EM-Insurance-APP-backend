@@ -11,26 +11,26 @@ const Op = db.Sequelize.Op //sequelize operation --like,regexp etc
 export const create = (req, res) => {
   //Validate User
   if (!req.body.username) {
-    res.status(400).json({ message: 'Username not provided.' })
+    res.status(200).json({ message: 'Username not provided.', isError: true })
     return
   }
   if (!req.body.first_name) {
-    res.status(400).json({ message: 'First name not provided.' })
+    res.status(200).json({ message: 'First name not provided.', isError: true })
     return
   }
   if (!req.body.last_name) {
-    res.status(400).json({ message: 'Last name not provided.' })
+    res.status(200).json({ message: 'Last name not provided.', isError: true })
     return
   }
   if (!req.body.email) {
-    res.status(400).json({ message: 'Email not provided.' })
+    res.status(200).json({ message: 'Email not provided.', isError: true })
   }
   if (!emailValidator.validate(req.body.email)) {
-    res.status(400).json({ message: 'Invalid email address.' })
+    res.status(200).json({ message: 'Invalid email address.', isError: true })
     return
   }
   if (!req.body.password) {
-    res.status(400).json({ message: 'Password not provided.' })
+    res.status(200).json({ message: 'Password not provided.', isError: true })
     return
   }
 
@@ -51,7 +51,7 @@ export const create = (req, res) => {
       res.status(200).json(data)
     })
     .catch((error) => {
-      res.status(400).json({
+      res.status(500).json({
         message: 'Username is already in use.',
       })
       console.log(error.message)
@@ -82,6 +82,7 @@ export const findByUsername = async (req, res) => {
     .catch((error) => {
       res.status(500).json({
         message: 'Error encountered while retrieving user from storage.',
+        isError: true,
       })
       console.log(error.message)
     })
@@ -97,7 +98,8 @@ export const findOne = (req, res) => {
     })
     .catch((error) => {
       res.status(500).json({
-        message: `Error retrieving user with id ${id}.`,
+        message: `Error retrieving user record.`,
+        isError: true,
       })
       console.log(error.message)
     })
@@ -114,8 +116,9 @@ export const update = (req, res) => {
           message: 'User record was updated successfully.',
         })
       } else {
-        res.status(400).json({
+        res.status(200).json({
           message: `Cannot update user as record does not exist.`,
+          isError: true,
         })
       }
     })
@@ -131,7 +134,7 @@ export const update = (req, res) => {
 export const changePassword = (req, res) => {
   const id = req.params.id
   if (!req.body.password) {
-    res.json({ message: 'New password not provided.' })
+    res.json({ message: 'New password not provided.', isError: true })
     return
   }
   const password = req.body.password
@@ -142,10 +145,12 @@ export const changePassword = (req, res) => {
       if (num == 1) {
         res.status(200).json({
           message: 'Password successfully updated.',
+          isError: true,
         })
       } else {
-        res.status(400).json({
+        res.status(200).json({
           message: `User does not exist`,
+          isError: true,
         })
       }
     })
@@ -161,11 +166,11 @@ export const changePassword = (req, res) => {
 export const authenticateUser = (req, res) => {
   //Validate inputs
   if (!req.body.username) {
-    res.status(400).json({ message: 'Username not provided.' })
+    res.status(200).json({ message: 'Username not provided.', isError: true })
     return
   }
   if (!req.body.password) {
-    res.status(400).json({ message: 'Password not provided.' })
+    res.status(200).json({ message: 'Password not provided.', isError: true })
     return
   }
 
@@ -182,7 +187,7 @@ export const authenticateUser = (req, res) => {
       var user = [...data]
       if (user.length !== 0) {
         if (user[0].status !== 'active') {
-          res.status(400).json({
+          res.status(200).json({
             error: true,
             message:
               'Your account has been '.concat(user[0].status) +
