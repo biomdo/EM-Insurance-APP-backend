@@ -4,7 +4,7 @@ import env from 'dotenv'
 import userRoutes from './user_routes.js'
 import productRoutes from './product_routes.js'
 import clientRoutes from './client_routes.js'
-import benefitiaryRoutes from './benefitiary_routes.js'
+import beneficiaryRoutes from './beneficiary_routes.js'
 import bankDetailsRoutes from './bank_details_routes.js'
 import clientProductRoutes from './client_product_routes.js'
 
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 router.use(`/user`, userRoutes)
 router.use('/product', productRoutes)
 router.use('/client', clientRoutes)
-router.use('/benefitiary', benefitiaryRoutes)
+router.use('/beneficiary', beneficiaryRoutes)
 router.use('/bankdetails', bankDetailsRoutes)
 router.use('/clientproduct', clientProductRoutes)
 

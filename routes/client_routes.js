@@ -5,7 +5,7 @@ import {
   findAllClients,
   update,
   deleteClient,
-  findClientBenefitiary,
+  findClientBeneficiary,
   findClientProducts,
 } from '../controllers/client_controller.js'
 
@@ -27,7 +27,7 @@ clientRouter.put('/:id', update)
 clientRouter.put('/delete/:id', deleteClient)
 
 //Find client benefitiaries
-clientRouter.get('/benefitiary/:id', findClientBenefitiary)
+clientRouter.get('/beneficiary/:id', findClientBeneficiary)
 
 //find client products
 clientRouter.get('/products/:id', findClientProducts)

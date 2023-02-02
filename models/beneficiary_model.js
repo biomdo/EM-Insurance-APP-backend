@@ -1,5 +1,5 @@
-const BenefitiaryModel = (sequelize, Sequelize) => {
-  const Benefitiary = sequelize.define('tbl_benefitiary', {
+const BeneficiaryModel = (sequelize, Sequelize) => {
+  const Beneficiary = sequelize.define('tbl_beneficiary', {
     client_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -18,6 +18,6 @@ const BenefitiaryModel = (sequelize, Sequelize) => {
     },
   })
 
-  return Benefitiary
+  return Beneficiary
 }
-export default BenefitiaryModel
+export default BeneficiaryModel

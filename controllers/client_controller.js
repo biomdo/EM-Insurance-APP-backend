@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op //sequelize operation --like,regexp etc
 const Client = db.clients
 const ClientProduct = db.clientProducts
 const Product = db.products
-const Benefitiary = db.benefitiaries
+const Beneficiary = db.benefitiaries
 
 export const create = (req, res) => {
   //Validate Client
@@ -136,10 +136,10 @@ export const findClientProducts = async (req, res) => {
     })
 }
 
-//find Client Benefitiary
-export const findClientBenefitiary = async (req, res) => {
+//find Client Beneficiary
+export const findClientBeneficiary = async (req, res) => {
   const clientId = req.params.id
-  await Benefitiary.findAll({ where: { client_id: clientId } })
+  await Beneficiary.findAll({ where: { client_id: clientId } })
     .then((data) => {
       res.status(200).json(data)
     })
